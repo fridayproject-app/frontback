@@ -33,6 +33,28 @@ function SettingsSection({ title, children }) {
   )
 }
 
+/* SVG icons for theme switcher — no emojis */
+const MoonIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <path d="M15.5 10.5A7 7 0 0 1 7.5 2.5a7 7 0 1 0 8 8z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+const SunIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <circle cx="9" cy="9" r="3.5" stroke="currentColor" strokeWidth="1.5"/>
+    <path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.22 3.22l1.42 1.42M13.36 13.36l1.42 1.42M3.22 14.78l1.42-1.42M13.36 4.64l1.42-1.42" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+  </svg>
+)
+
+const DeviceIcon = () => (
+  <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+    <rect x="1" y="1" width="14" height="16" rx="3" stroke="currentColor" strokeWidth="1.5"/>
+    <circle cx="8" cy="14" r="1" fill="currentColor"/>
+    <path d="M5 1v1a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V1" stroke="currentColor" strokeWidth="1.5"/>
+  </svg>
+)
+
 function LegalPage({ title, onBack }) {
   const content = {
     'Terms of Use': `Last updated: August 2025\n\nBy using Friday, you agree to these Terms of Use. Friday is a platform for discovering and sharing events in Gaborone, Botswana.\n\nYou must be 18 or older to use Friday. You are responsible for all content you post. Friday reserves the right to remove content that violates our Community Guidelines.\n\nWe may update these terms at any time. Continued use of Friday constitutes acceptance of any changes.`,
@@ -88,9 +110,9 @@ export default function Settings() {
   }
 
   const THEME_OPTIONS = [
-    { label: 'Dark', value: 'dark', icon: '🌙' },
-    { label: 'Light', value: 'light', icon: '☀️' },
-    { label: 'Device', value: 'device', icon: '📱' },
+    { label: 'Dark',   value: 'dark',   Icon: MoonIcon },
+    { label: 'Light',  value: 'light',  Icon: SunIcon },
+    { label: 'Device', value: 'device', Icon: DeviceIcon },
   ]
 
   const LEGAL_ITEMS = ['Terms of Use', 'Privacy Policy', 'Community Guidelines', 'Safety', 'Contact']
@@ -132,14 +154,14 @@ export default function Settings() {
           <div className="settings-row">
             <span className="settings-row__label">Theme</span>
             <div className="theme-switcher">
-              {THEME_OPTIONS.map(opt => (
+              {THEME_OPTIONS.map(({ value, label, Icon }) => (
                 <button
-                  key={opt.value}
-                  className={`theme-btn ${theme === opt.value ? 'theme-btn--active' : ''}`}
-                  onClick={() => setTheme(opt.value)}
+                  key={value}
+                  className={`theme-btn ${theme === value ? 'theme-btn--active' : ''}`}
+                  onClick={() => setTheme(value)}
                 >
-                  <span>{opt.icon}</span>
-                  <span>{opt.label}</span>
+                  <Icon />
+                  <span>{label}</span>
                 </button>
               ))}
             </div>
@@ -177,7 +199,7 @@ export default function Settings() {
 
         <p className="settings-footer">
           Friday · Gaborone, Botswana 🇧🇼<br />
-          Made for the city 🌙
+          Made for the city
         </p>
       </div>
 
@@ -281,24 +303,26 @@ export default function Settings() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 2px;
-          padding: 7px 10px;
+          gap: 4px;
+          padding: 8px 12px;
           border-radius: calc(var(--radius-md) - 3px);
           font-size: 11px;
           font-weight: 600;
-          color: var(--text-secondary);
+          color: var(--text-tertiary);
           font-family: var(--font);
           transition: all var(--transition);
           cursor: pointer;
         }
 
-        .theme-btn span:first-child { font-size: 16px; }
+        .theme-btn svg { opacity: 0.7; }
 
         .theme-btn--active {
           background: var(--bg-card);
           color: var(--text-primary);
           box-shadow: 0 1px 4px rgba(0,0,0,0.15);
         }
+
+        .theme-btn--active svg { opacity: 1; }
 
         .settings-footer {
           text-align: center;

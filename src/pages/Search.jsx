@@ -43,7 +43,6 @@ export default function Search() {
 
       if (error || !data || data.length === 0) {
         setIsDemo(true)
-        // Filter demo
         let demo = DEMO_POSTS
         if (query) demo = demo.filter(p =>
           p.title?.toLowerCase().includes(query.toLowerCase()) ||
@@ -88,7 +87,7 @@ export default function Search() {
           </div>
         </div>
 
-        {/* Category filter */}
+        {/* Category filter — no emojis */}
         <div className="search-filters">
           <div className="search-filters__scroll">
             {CATEGORIES.map(cat => (
@@ -97,13 +96,13 @@ export default function Search() {
                 className={`filter-chip ${selectedCat === cat.value ? 'filter-chip--active' : ''}`}
                 onClick={() => setSelectedCat(selectedCat === cat.value ? null : cat.value)}
               >
-                {cat.emoji} {cat.label}
+                {cat.label}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Area filter */}
+        {/* Area filter — no pin emoji */}
         <div className="search-filters">
           <div className="search-filters__scroll">
             {AREAS.slice(0, 8).map(area => (
@@ -112,7 +111,7 @@ export default function Search() {
                 className={`filter-chip ${selectedArea === area ? 'filter-chip--active' : ''}`}
                 onClick={() => setSelectedArea(selectedArea === area ? null : area)}
               >
-                📍 {area}
+                {area}
               </button>
             ))}
           </div>
@@ -121,7 +120,6 @@ export default function Search() {
         {/* Results */}
         {!searched && (
           <div className="empty-state" style={{ paddingTop: 'var(--space-2xl)' }}>
-            <span className="empty-state__icon">🔍</span>
             <p className="empty-state__title">Search Friday</p>
             <p className="empty-state__desc">Find parties, restaurant nights, campus events and more in Gaborone.</p>
           </div>

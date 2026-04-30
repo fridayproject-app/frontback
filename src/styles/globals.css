@@ -69,6 +69,13 @@
   --pill-active-bg: #ffffff;
   --pill-active-text: #000000;
 
+  /* filter chips */
+  --chip-bg: rgba(255,255,255,0.1);
+  --chip-text: rgba(255,255,255,0.7);
+  --chip-border: rgba(255,255,255,0.12);
+  --chip-active-bg: #ffffff;
+  --chip-active-text: #000000;
+
   --overlay: rgba(0,0,0,0.7);
   --shadow: 0 4px 24px rgba(0,0,0,0.6);
   --shadow-card: 0 2px 16px rgba(0,0,0,0.4);
@@ -78,7 +85,6 @@
   --nav-border: rgba(255,255,255,0.06);
   --header-bg: rgba(0,0,0,0.9);
 
-  --verified-color: #ffffff;
   --skeleton-from: #1a1a1a;
   --skeleton-to: #2a2a2a;
 
@@ -111,6 +117,13 @@
   --pill-active-bg: #000000;
   --pill-active-text: #ffffff;
 
+  /* filter chips */
+  --chip-bg: rgba(0,0,0,0.07);
+  --chip-text: rgba(0,0,0,0.6);
+  --chip-border: rgba(0,0,0,0.08);
+  --chip-active-bg: #000000;
+  --chip-active-text: #ffffff;
+
   --overlay: rgba(0,0,0,0.5);
   --shadow: 0 4px 24px rgba(0,0,0,0.12);
   --shadow-card: 0 2px 12px rgba(0,0,0,0.08);
@@ -120,7 +133,6 @@
   --nav-border: rgba(0,0,0,0.07);
   --header-bg: rgba(245,245,247,0.9);
 
-  --verified-color: #000000;
   --skeleton-from: #e8e8ea;
   --skeleton-to: #d8d8da;
 
@@ -390,6 +402,35 @@ textarea.form-input {
   color: var(--pill-active-text);
 }
 
+/* ===== FILTER CHIPS — theme-aware, no emojis ===== */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font);
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  border: 1px solid var(--chip-border);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.filter-chip:hover {
+  background: var(--accent-hover);
+  color: var(--text-primary);
+}
+
+.filter-chip--active {
+  background: var(--chip-active-bg);
+  color: var(--chip-active-text);
+  border-color: transparent;
+}
+
 /* ===== DIVIDER ===== */
 .divider {
   height: 1px;
@@ -467,22 +508,13 @@ textarea.form-input {
   max-width: 240px;
 }
 
-/* ===== VERIFIED BADGE ===== */
+/* ===== VERIFIED BADGE — golden circle, Facebook-style ===== */
 .verified-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 14px;
-  height: 14px;
-  background: var(--accent);
-  border-radius: 50%;
   flex-shrink: 0;
-}
-
-.verified-badge svg {
-  width: 9px;
-  height: 9px;
-  fill: var(--accent-text);
+  line-height: 0;
 }
 
 /* ===== AVATAR ===== */

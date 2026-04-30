@@ -13,7 +13,7 @@ export default function Header() {
 
   const getTitle = () => {
     const path = location.pathname
-    if (path === '/') return null // show logo
+    if (path === '/') return null
     if (path === '/search') return 'Search'
     if (path === '/create') return 'New Post'
     if (path.startsWith('/profile')) return 'Profile'
@@ -46,7 +46,6 @@ export default function Header() {
                 className="header__logo"
                 onError={e => { e.target.style.display = 'none' }}
               />
-              <span className="header__logo-text">Friday</span>
             </Link>
             <div className="header__right">
               {!user && (
@@ -86,7 +85,6 @@ export default function Header() {
         .header__logo-link {
           display: flex;
           align-items: center;
-          gap: var(--space-sm);
           text-decoration: none;
         }
 
@@ -94,13 +92,6 @@ export default function Header() {
           height: 28px;
           width: auto;
           object-fit: contain;
-        }
-
-        .header__logo-text {
-          font-size: 22px;
-          font-weight: 800;
-          letter-spacing: -0.04em;
-          color: var(--text-primary);
         }
 
         .header__title {

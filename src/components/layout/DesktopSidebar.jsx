@@ -20,23 +20,10 @@ export default function DesktopSidebar() {
     return location.pathname.startsWith(to)
   }
 
-  const logoSrc = resolvedTheme === 'dark'
-    ? '/images/black background.png'
-    : '/images/white background.png'
-
   return (
     <aside className="sidebar show-desktop" style={{ display: 'none' }}>
-      <div className="sidebar__top">
-        <Link to="/" className="sidebar__brand">
-          <img
-            src={logoSrc}
-            alt="Friday"
-            className="sidebar__logo"
-            onError={e => { e.target.style.display = 'none' }}
-          />
-          <span className="sidebar__brand-name">Friday</span>
-        </Link>
-      </div>
+      {/* Spacer to push nav below the fixed header */}
+      <div className="sidebar__header-spacer" />
 
       <nav className="sidebar__nav">
         {NAV_ITEMS.map(({ to, label, icon, isCreate }) => {
@@ -71,7 +58,7 @@ export default function DesktopSidebar() {
           left: 0;
           bottom: 0;
           width: 220px;
-          padding: calc(var(--safe-top) + var(--space-md)) var(--space-md) var(--space-lg);
+          padding: 0 var(--space-md) var(--space-lg);
           background: var(--bg);
           border-right: 1px solid var(--border);
           display: flex;
@@ -82,28 +69,12 @@ export default function DesktopSidebar() {
         }
 
         @media (min-width: 1100px) {
-          .sidebar { width: 260px; padding: calc(var(--safe-top) + var(--space-md)) var(--space-lg) var(--space-lg); }
+          .sidebar { width: 260px; padding: 0 var(--space-lg) var(--space-lg); }
         }
 
-        .sidebar__top { padding: var(--space-md) 0; }
-
-        .sidebar__brand {
-          display: flex;
-          align-items: center;
-          gap: var(--space-sm);
-          text-decoration: none;
-        }
-
-        .sidebar__logo {
-          height: 26px;
-          width: auto;
-        }
-
-        .sidebar__brand-name {
-          font-size: 22px;
-          font-weight: 800;
-          letter-spacing: -0.04em;
-          color: var(--text-primary);
+        .sidebar__header-spacer {
+          height: calc(var(--header-h) + var(--safe-top) + var(--space-md));
+          flex-shrink: 0;
         }
 
         .sidebar__nav {

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { DEMO_POSTS, FILTER_CHIPS } from '../data/demoData'
 import { isToday, isWeekend, parseISO } from 'date-fns'
@@ -98,7 +99,6 @@ export default function Home() {
         {/* Hero */}
         <div className="home__hero">
           <div className="container">
-            <p className="home__city">Gaborone 🇧🇼</p>
             <h1 className="home__headline">What's happening<br />tonight?</h1>
           </div>
         </div>
@@ -136,12 +136,12 @@ export default function Home() {
         {/* Filter Chips */}
         <FilterChips active={filter} onChange={setFilter} />
 
-        {/* Demo banner */}
+        {/* Demo banner — sign up prompt only */}
         {isDemo && !loading && (
           <div className="container">
             <div className="home__demo-banner">
-              <span>🌟</span>
-              <span>Showing demo events · <strong>Sign up</strong> to post real events</span>
+              <Link to="/signup" className="home__demo-signup">Sign up</Link>
+              <span> to post real events</span>
             </div>
           </div>
         )}
@@ -153,15 +153,6 @@ export default function Home() {
       <style>{`
         .home__hero {
           padding: var(--space-lg) 0 var(--space-md);
-        }
-
-        .home__city {
-          font-size: 13px;
-          font-weight: 600;
-          color: var(--text-tertiary);
-          letter-spacing: 0.02em;
-          text-transform: uppercase;
-          margin-bottom: var(--space-xs);
         }
 
         .home__headline {
@@ -235,7 +226,7 @@ export default function Home() {
         .home__demo-banner {
           display: flex;
           align-items: center;
-          gap: var(--space-sm);
+          gap: 4px;
           padding: 10px 14px;
           background: var(--accent-muted);
           border: 1px solid var(--border);
@@ -245,7 +236,12 @@ export default function Home() {
           margin-bottom: var(--space-sm);
         }
 
-        .home__demo-banner strong { color: var(--text-primary); }
+        .home__demo-signup {
+          font-weight: 700;
+          color: var(--text-primary);
+          text-decoration: underline;
+          text-underline-offset: 2px;
+        }
       `}</style>
     </div>
   )

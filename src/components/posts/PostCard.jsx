@@ -3,24 +3,28 @@ import { Link } from 'react-router-dom'
 import { format, parseISO } from 'date-fns'
 import VibeButton from '../ui/VibeButton'
 
+/* Golden verified badge — Facebook-style circle, gold fill like X/Twitter gold */
 function VerifiedBadge() {
   return (
     <span className="verified-badge" title="Verified">
-      <svg viewBox="0 0 10 10" fill="none">
-        <path d="M2 5L4.2 7.5L8.5 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="8" fill="#F4A800"/>
+        <path
+          d="M4.5 8.2L6.8 10.5L11.5 5.5"
+          stroke="#ffffff"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </span>
   )
 }
 
 function CategoryPill({ category }) {
-  const emojis = {
-    Party: '🎉', Restaurant: '🍽️', Campus: '🎓',
-    'Public Event': '🎪', Nightlife: '🌙', Chill: '🧘', Other: '✨'
-  }
   return (
     <span className="post-card__category">
-      {emojis[category] || '✨'} {category}
+      {category}
     </span>
   )
 }
@@ -286,6 +290,15 @@ export default function PostCard({ post, isDemo = false }) {
         .post-card__host-username {
           font-size: 12px;
           color: var(--text-tertiary);
+        }
+
+        /* Golden verified badge */
+        .verified-badge {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          line-height: 0;
         }
 
         .post-card__title-link { text-decoration: none; }
