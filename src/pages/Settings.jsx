@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 
@@ -33,10 +33,9 @@ function SettingsSection({ title, children }) {
   )
 }
 
-/* SVG icons for theme switcher — no emojis */
 const MoonIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-    <path d="M15.5 10.5A7 7 0 0 1 7.5 2.5a7 7 0 1 0 8 8z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M15.5 10.5A7 7 0 017.5 2.5a7 7 0 100 13 7 7 0 008-5z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
 
@@ -51,7 +50,6 @@ const DeviceIcon = () => (
   <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
     <rect x="1" y="1" width="14" height="16" rx="3" stroke="currentColor" strokeWidth="1.5"/>
     <circle cx="8" cy="14" r="1" fill="currentColor"/>
-    <path d="M5 1v1a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V1" stroke="currentColor" strokeWidth="1.5"/>
   </svg>
 )
 
@@ -61,7 +59,7 @@ function LegalPage({ title, onBack }) {
     'Privacy Policy': `Last updated: August 2025\n\nFriday collects only the information needed to operate the service: your email address, username, and content you post.\n\nWe do not sell your data. We use Supabase for authentication and data storage. Data may be stored in servers outside Botswana.\n\nYou can delete your account at any time by contacting us.`,
     'Community Guidelines': `Friday is a community for people in Gaborone to discover and share events. We expect all users to:\n\n• Post only real events or happenings\n• Be respectful in comments and interactions\n• Not post spam, misleading, or harmful content\n• Not impersonate other people or businesses\n• Not post content that violates Botswana law\n\nViolations may result in removal of content or account suspension.`,
     'Safety': `Your safety matters to us.\n\nNever share your personal address publicly. Use the WhatsApp or call features to coordinate privately with hosts.\n\nIf you feel unsafe at any event, leave immediately and contact emergency services.\n\nTo report unsafe content or users on Friday, contact us at safety@friday.bw`,
-    'Contact': `For support, feedback, or business enquiries:\n\n📧 hello@friday.bw\n📱 WhatsApp: +267 71 000 000\n🌐 gabs.friday.bw\n\nFor safety issues: safety@friday.bw\n\nFor press: press@friday.bw\n\nWe're based in Gaborone, Botswana 🇧🇼`,
+    'Contact': `For support, feedback, or business enquiries:\n\nEmail: hello@friday.bw\nWhatsApp: +267 71 000 000\nWeb: gabs.friday.bw\n\nFor safety issues: safety@friday.bw\n\nFor press: press@friday.bw\n\nWe're based in Gaborone, Botswana.`,
   }
 
   return (
@@ -96,8 +94,20 @@ function LegalPage({ title, onBack }) {
 export default function Settings() {
   const { theme, setTheme } = useTheme()
   const { user, profile, signOut } = useAuth()
-  const navigate = useNavigate()
   const [legalPage, setLegalPage] = useState(null)
+  const [signingOut, setSigningOut] = useState(false)
+
+  async function handleSignOut() {
+    setSigningOut(true)
+    try {
+      await signOut()
+    } catch (e) {
+      console.warn('Sign out error:', e)
+    } finally {
+      // Force a full page reload — most reliable way to clear all session state
+      window.location.href = '/'
+    }
+  }
 
   if (legalPage) {
     return (
@@ -136,9 +146,9 @@ export default function Settings() {
             <SettingsRow label="Email" value={user.email} />
             <div className="settings-divider" />
             <SettingsRow
-              label="Sign Out"
+              label={signingOut ? 'Signing out…' : 'Sign Out'}
               danger
-              onClick={async () => { await signOut(); navigate('/') }}
+              onClick={handleSignOut}
             />
           </SettingsSection>
         ) : (
@@ -172,7 +182,7 @@ export default function Settings() {
         <SettingsSection title="About">
           <SettingsRow label="Version" value="1.0.0" />
           <div className="settings-divider" />
-          <SettingsRow label="City" value="Gaborone 🇧🇼" />
+          <SettingsRow label="City" value="Gaborone, Botswana" />
           <div className="settings-divider" />
           <SettingsRow
             label="Install App"
@@ -198,7 +208,7 @@ export default function Settings() {
         </SettingsSection>
 
         <p className="settings-footer">
-          Friday · Gaborone, Botswana 🇧🇼<br />
+          Friday · Gaborone, Botswana<br />
           Made for the city
         </p>
       </div>
@@ -251,13 +261,9 @@ export default function Settings() {
           gap: var(--space-md);
         }
 
-        .settings-row:hover {
-          background: var(--accent-muted);
-        }
+        .settings-row:hover { background: var(--accent-muted); }
 
-        .settings-row--danger .settings-row__label {
-          color: #ff3b30;
-        }
+        .settings-row--danger .settings-row__label { color: #ff3b30; }
 
         .settings-row__label {
           font-size: 15px;
@@ -280,10 +286,7 @@ export default function Settings() {
           white-space: nowrap;
         }
 
-        .settings-row__chevron {
-          color: var(--text-tertiary);
-          flex-shrink: 0;
-        }
+        .settings-row__chevron { color: var(--text-tertiary); flex-shrink: 0; }
 
         .settings-divider {
           height: 1px;

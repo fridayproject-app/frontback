@@ -1,19 +1,73 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { useTheme } from '../../context/ThemeContext'
+
+/* SVG icons — no unicode characters */
+const HomeIcon = ({ active }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path
+      d="M2.5 10L10 3.5L17.5 10V17C17.5 17.276 17.276 17.5 17 17.5H13V13H7V17.5H3C2.724 17.5 2.5 17.276 2.5 17V10Z"
+      fill={active ? 'currentColor' : 'none'}
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+const SearchIcon = ({ active }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.6" fill={active ? 'currentColor' : 'none'} fillOpacity={active ? 0.15 : 0}/>
+    <path d="M17 17L13.5 13.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+  </svg>
+)
+
+const PlusIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <path d="M9 2V16M2 9H16" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
+  </svg>
+)
+
+const ProfileIcon = ({ active }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <circle
+      cx="10" cy="7" r="3.5"
+      fill={active ? 'currentColor' : 'none'}
+      stroke="currentColor"
+      strokeWidth="1.6"
+    />
+    <path
+      d="M3.5 17C3.5 14 6.46 11.5 10 11.5C13.54 11.5 16.5 14 16.5 17"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+    />
+  </svg>
+)
+
+const SettingsIcon = ({ active }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <circle cx="10" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.6" fill={active ? 'currentColor' : 'none'}/>
+    <path
+      d="M10 2v1.5M10 16.5V18M2 10h1.5M16.5 10H18M3.757 3.757l1.06 1.06M15.182 15.182l1.06 1.06M3.757 16.243l1.06-1.06M15.182 4.818l1.06-1.06"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+    />
+  </svg>
+)
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Home', icon: '⌂' },
-  { to: '/search', label: 'Search', icon: '⌕' },
-  { to: '/create', label: 'Post Event', icon: '+', isCreate: true },
-  { to: '/profile', label: 'Profile', icon: '◯' },
-  { to: '/settings', label: 'Settings', icon: '⚙' },
+  { to: '/',        label: 'Home',       Icon: HomeIcon    },
+  { to: '/search',  label: 'Search',     Icon: SearchIcon  },
+  { to: '/create',  label: 'Post Event', Icon: PlusIcon, isCreate: true },
+  { to: '/profile', label: 'Profile',    Icon: ProfileIcon },
+  { to: '/settings',label: 'Settings',   Icon: SettingsIcon},
 ]
 
 export default function DesktopSidebar() {
   const location = useLocation()
   const { user } = useAuth()
-  const { resolvedTheme } = useTheme()
 
   const isActive = (to) => {
     if (to === '/') return location.pathname === '/'
@@ -22,11 +76,10 @@ export default function DesktopSidebar() {
 
   return (
     <aside className="sidebar show-desktop" style={{ display: 'none' }}>
-      {/* Spacer to push nav below the fixed header */}
       <div className="sidebar__header-spacer" />
 
       <nav className="sidebar__nav">
-        {NAV_ITEMS.map(({ to, label, icon, isCreate }) => {
+        {NAV_ITEMS.map(({ to, label, Icon, isCreate }) => {
           const active = isActive(to)
           const linkTo = (to === '/profile' && !user) ? '/login' : to
 
@@ -36,7 +89,9 @@ export default function DesktopSidebar() {
               to={linkTo}
               className={`sidebar__item ${active ? 'sidebar__item--active' : ''} ${isCreate ? 'sidebar__item--create' : ''}`}
             >
-              <span className="sidebar__item-icon">{icon}</span>
+              <span className="sidebar__item-icon">
+                <Icon active={active} />
+              </span>
               <span className="sidebar__item-label">{label}</span>
             </Link>
           )
@@ -122,8 +177,10 @@ export default function DesktopSidebar() {
 
         .sidebar__item-icon {
           width: 22px;
-          text-align: center;
-          font-size: 18px;
+          height: 22px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           flex-shrink: 0;
         }
 

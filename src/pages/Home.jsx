@@ -5,8 +5,10 @@ import { DEMO_POSTS, FILTER_CHIPS } from '../data/demoData'
 import { isToday, isWeekend, parseISO } from 'date-fns'
 import PostFeed from '../components/posts/PostFeed'
 import FilterChips from '../components/ui/FilterChips'
+import { useAuth } from '../context/AuthContext'
 
 export default function Home() {
+  const { user } = useAuth()
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [isDemo, setIsDemo] = useState(false)
@@ -32,12 +34,14 @@ export default function Home() {
         .order('created_at', { ascending: false })
         .limit(50)
 
-      if (error || !data || data.length === 0) {
+      // Only fall back to demo on a real DB/network error — not an empty result
+      if (error) {
+        console.warn('Posts fetch error, using demo:', error.message)
         setIsDemo(true)
         setPosts(DEMO_POSTS)
       } else {
         setIsDemo(false)
-        const enriched = data.map(p => ({
+        const enriched = (data || []).map(p => ({
           ...p,
           reaction_count: p.reactions?.[0]?.count || 0,
           comment_count: p.comments?.[0]?.count || 0,
@@ -136,8 +140,8 @@ export default function Home() {
         {/* Filter Chips */}
         <FilterChips active={filter} onChange={setFilter} />
 
-        {/* Demo banner — sign up prompt only */}
-        {isDemo && !loading && (
+        {/* Sign up prompt for guests only */}
+        {!user && !loading && (
           <div className="container">
             <div className="home__demo-banner">
               <Link to="/signup" className="home__demo-signup">Sign up</Link>
