@@ -11,6 +11,7 @@ import Settings from './pages/Settings'
 import PostDetail from './pages/PostDetail'
 import Login from './pages/auth/Login'
 import Signup from './pages/auth/Signup'
+import ConfirmEmail from './pages/auth/ConfirmEmail'
 
 import './styles/globals.css'
 
@@ -26,6 +27,7 @@ function AppRoutes() {
       {/* Auth pages — no Layout wrapper */}
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/auth/confirm" element={<ConfirmEmail />} />
 
       {/* App pages — with Layout */}
       <Route path="/" element={<Layout><Home /></Layout>} />
