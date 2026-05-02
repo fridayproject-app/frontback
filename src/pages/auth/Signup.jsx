@@ -23,7 +23,13 @@ export default function Signup() {
 
     setLoading(true)
     try {
-      const { data } = await signUp(form.email, form.password)
+      const { data } = await supabase.auth.signUp({
+  email: form.email,
+  password: form.password,
+  options: {
+    emailRedirectTo: 'https://frontback-rose.vercel.app/auth/confirm',
+  },
+})
       // Create profile
       if (data?.user) {
         await supabase.from('profiles').insert({
